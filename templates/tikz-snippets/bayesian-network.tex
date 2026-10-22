@@ -1,0 +1,53 @@
+% =============================================================================
+% bayesian-network.tex — Graphical model with plate notation
+%
+% Shows: hyperparameter alpha -> latent theta -> per-item latent z_n ->
+% observed x_n, with (z_n, x_n) enclosed in a plate replicated N times.
+% Compiles standalone via: xelatex bayesian-network.tex
+% =============================================================================
+
+\documentclass[border=6pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, fit}
+
+\definecolor{node-fill}{HTML}{E8EDF5}
+\definecolor{node-border}{HTML}{012169}
+\definecolor{arrow}{HTML}{1A1A1A}
+
+\tikzset{
+  latent/.style={
+    draw=node-border, fill=node-fill, circle,
+    minimum size=1.1cm, align=center, font=\small
+  },
+  observed/.style={
+    draw=node-border, fill=white, thick, circle,
+    minimum size=1.1cm, align=center, font=\small
+  },
+  plate/.style={draw=node-border, dashed, rounded corners, inner sep=8pt},
+  bn-edge/.style={-{Latex[length=2.5mm]}, thick, draw=arrow}
+}
+
+% -----------------------------------------------------------------------------
+% Diagram: hierarchical Bayesian model, hyperparameter to observation.
+% Coordinates:
+%   alpha at (0, 1.5)   -- fixed hyperparameter, upper left
+%   theta at (2.5, 1.5) -- shared latent parameter
+%   z     at (5, 1.5)   -- per-item latent, inside the plate
+%   x     at (5, -0.5)  -- observed variable, inside the plate
+% Plate fits (z)(x), labeled N in the lower-right corner.
+% -----------------------------------------------------------------------------
+
+\begin{document}
+\begin{tikzpicture}
+  \node[latent]   (alpha) at (0, 1.5)   {$\alpha$};
+  \node[latent]   (theta) at (2.5, 1.5) {$\theta$};
+  \node[latent]   (z)     at (5, 1.5)   {$z_n$};
+  \node[observed] (x)     at (5, -0.5)  {$x_n$};
+
+  \draw[bn-edge] (alpha) -- (theta);
+  \draw[bn-edge] (theta) -- (z);
+  \draw[bn-edge] (z)     -- (x);
+
+  \node[plate, fit=(z)(x), label={[font=\small]below right:$N$}] {};
+\end{tikzpicture}
+\end{document}

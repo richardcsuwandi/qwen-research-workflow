@@ -1,0 +1,55 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "run_shell_command|write_file|edit",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "git-guardrails",
+            "command": "python3 \"$QWEN_PROJECT_DIR/.qwen/hooks/git-guardrails.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "name": "notify",
+            "command": "\"$QWEN_PROJECT_DIR/.qwen/hooks/notify.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "name": "pre-compact",
+            "command": "python3 \"$QWEN_PROJECT_DIR/.qwen/hooks/pre-compact.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "name": "post-compact-restore",
+            "command": "python3 \"$QWEN_PROJECT_DIR/.qwen/hooks/post-compact-restore.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "$version": 4
+}

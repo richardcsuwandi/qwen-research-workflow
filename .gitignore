@@ -1,0 +1,16 @@
+.DS_Store
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.pdf
+!master_supporting_docs/**/*.pdf
+.qwen/settings.local.json
+.qwen/session-state/
